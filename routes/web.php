@@ -12,10 +12,7 @@
 */
 
 Route::get('/', function () {
-	if (config('app.env') == 'local') {
-		return view('welcome');
-	}
-    return redirect('/admin');
+	return view('welcome');
 });
 
 Auth::routes();
