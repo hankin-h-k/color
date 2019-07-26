@@ -277,4 +277,35 @@ class LoginController extends Controller
             return redirect('/');
         }
     }
+
+    //登录
+    public function loginMobile(Request $request)
+    {
+        $mobile = $request->input('mobile');
+        if (empty($mobile)) {
+            return $this->failure('请输入手机号');
+        }
+        $code = $request->input('code');
+        if (empty($code)) {
+            return $this->failure('请输入验证码');
+        }
+        //检测验证码
+        $result = \MessageService::check($mobile, $code);
+        if (empty($result)) {
+            $this->failure('请输入与正确的验证码');
+        }
+        $user = User::where('mobile', $request->input('mobile'))->first();
+        if (empty($user)) {
+            $user = new User;
+            $user->name = $mobile;
+            $user->mobile = $mobile;
+            $user->password = bcrypt($mobile);
+            $user->email = $mobile.'@mail.com';
+            $user->save();
+            // $wechat = new Wechat;
+            // $wechat->user_id = $user->id;
+        }
+        $token = $user->createToken($user->mobile)->accessToken; 
+        return $this->success('login success', compact('user', 'token'));
+    }
 }

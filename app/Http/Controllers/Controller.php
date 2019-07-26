@@ -42,30 +42,15 @@ class Controller extends BaseController
 
     public function test(Request $request)
     {
-        $c1 = "255,255,255";
-        $c2 = '248,248,255';
-        $result  = $this->colorCal($c1, $c2);
+    //     $c1 = "255,255,255";
+    //     $c2 = '248,248,255';
+    //     $result  = $this->colorCal($c1, $c2);
 
-        $result2 = $this->colorCal('255,255,255', ' 151,255,255');
-        return $result;   
+    //     $result2 = $this->colorCal('255,255,255', ' 151,255,255');
+    //     return $result;   
     }
 
-    public function colorCal($c1, $c2)
-    {
-        $c1_arr = explode(',', $c1);
-        $c2_arr = explode(',', $c2);
-        $r1 = $c1_arr[0];
-        $r2 = $c2_arr[0];
-        $g1 = $c1_arr[1];
-        $g2 = $c2_arr[1];
-        $b1 = $c1_arr[2];
-        $b2 = $c2_arr[2];
-        $r3 = ($r1 - $r2) /256;
-        $g3 = ($g1 - $g2)/256;
-        $b3 = ($b1 - $b2)/256;
-        $result  = sqrt($r3 * $r3 + $g3 * $g3 + $b3 * $b3);
-        return $result;
-    }
+
 
 	public function upload(Request $request)
 	{
