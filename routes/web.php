@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-	return redirect('admin');
+	return view('welcome');
 });
 
 Auth::routes();
@@ -25,3 +25,4 @@ Route::middleware('auth')->group(function () {
 });
 
 
+Route::get('test', 'Controller@test');

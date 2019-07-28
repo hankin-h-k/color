@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\DelectionHistory;
+use App\Models\DetectionHistory;
 use App\Models\Example;
 use App\Models\ShowPic;
-class DelectionsController extends Controller
+class DetectionsController extends Controller
 {
 	/**
 	 * 轮播图
@@ -25,10 +25,10 @@ class DelectionsController extends Controller
      * 检测
      * @param  Request          $request   [description]
      * @param  Example          $example   [description]
-     * @param  DelectionHistory $delection [description]
+     * @param  DelectionHistory $detection [description]
      * @return [type]                      [description]
      */
-    public function delection(Request $request, Example $example, DelectionHistory $delection)
+    public function detect(Request $request, Example $example, DetectionHistory $detection)
     {
     	$color_value = $request->input('color_value');
     	$type = $request->input('type');
@@ -51,7 +51,7 @@ class DelectionsController extends Controller
     	//获取最小的
     	$example = $examples->where('value_color', $value);
     	//添加检测记录
-    	$history = $delection->create([
+    	$history = $detection->create([
     		'user_id'=>auth()->id(),
     		'pic' => $pic,
     		'example_id'=>$example->id,
@@ -75,5 +75,16 @@ class DelectionsController extends Controller
         $b3 = ($b1 - $b2)/256;
         $result  = sqrt($r3 * $r3 + $g3 * $g3 + $b3 * $b3);
         return $result;
+    }
+
+    /**
+     * 检测详情
+     * @param  Request          $request   [description]
+     * @param  DetectionHistory $detection [description]
+     * @return [type]                      [description]
+     */
+    public function detection(Request $request, DetectionHistory $detection)
+    {
+    	return $this->success('ok', $detection);
     }
 }

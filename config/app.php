@@ -174,6 +174,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\MessageServiceProvider::class,
         Overtrue\LaravelWeChat\ServiceProvider::class,
 
     ],
@@ -229,6 +230,7 @@ return [
         'WechatService' => App\Facades\WechatService::class,
         'UploadService' => App\Facades\UploadService::class,
         'EasyWechat' => Overtrue\LaravelWeChat\Facade::class,
+        'MessageService' => App\Facades\MessageService::class,
     ],
 
 ];

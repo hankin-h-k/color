@@ -291,8 +291,8 @@ class LoginController extends Controller
         }
         //检测验证码
         $result = \MessageService::check($mobile, $code);
-        if (empty($result)) {
-            $this->failure('请输入与正确的验证码');
+        if (!empty($result)) {
+            $this->failure($result);
         }
         $user = User::where('mobile', $request->input('mobile'))->first();
         if (empty($user)) {

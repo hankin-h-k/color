@@ -42,12 +42,11 @@ class Controller extends BaseController
 
     public function test(Request $request)
     {
-    //     $c1 = "255,255,255";
-    //     $c2 = '248,248,255';
-    //     $result  = $this->colorCal($c1, $c2);
+        // $result = \MessageService::check('15872844805', '999999999');
+        dd(md5(urlencode('测试').'TU1CO4J400'));
 
-    //     $result2 = $this->colorCal('255,255,255', ' 151,255,255');
-    //     return $result;   
+        // $sign = urlencode('测试').'C00003'
+        return $this->success('ok', $result);
     }
 
 
@@ -104,4 +103,5 @@ class Controller extends BaseController
         $path = config('app.url').$fileName;
         return $this->success('ok', $path);
     }
+
 }
