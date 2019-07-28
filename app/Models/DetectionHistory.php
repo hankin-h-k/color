@@ -7,4 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class DetectionHistory extends Model
 {
     //
+
+    public function user()
+    {
+    	return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function example()
+    {
+    	return $this->hasOne(Example::class, 'id', 'example_id');
+    }
 }

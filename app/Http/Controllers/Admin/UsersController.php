@@ -77,7 +77,7 @@ class UsersController extends Controller
             });
         }
         $users = $users->paginate();
-        return $this->success('ok', $users);
+        return $this->success('ok', $users); 
     }
 
     public function storeAdmin(Request $request, User $user)
