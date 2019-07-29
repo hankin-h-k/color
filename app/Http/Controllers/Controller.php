@@ -42,11 +42,7 @@ class Controller extends BaseController
 
     public function test(Request $request)
     {
-        // $result = \MessageService::check('15872844805', '999999999');
-        dd(md5(urlencode('测试').'TU1CO4J400'));
-
-        // $sign = urlencode('测试').'C00003'
-        return $this->success('ok', $result);
+        \MessageService::check('15872844805', 684308);
     }
 
 

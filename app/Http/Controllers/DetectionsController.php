@@ -31,25 +31,37 @@ class DetectionsController extends Controller
     public function detect(Request $request, Example $example, DetectionHistory $detection)
     {
     	$color_value = $request->input('color_value');
+        if (empty($color_value)) {
+            return $this->failure('请确定图片颜色');
+        }
     	$type = $request->input('type');
     	$pic = $request->input('pic');
-    	if (empty('pic')) {
+    	if (empty($pic)) {
     		return $this->failure('请上传需要检测的图片');
     	}
     	$examples = $example->all();
     	// $data = [];
-    	$value = 0;
+    	$value = 1;
+        $result_value = 1;
     	foreach ($examples as $key => $e) {
-    		$result = colorCal($color_value, $e->color_value);
-    		if ($key == 0) {
-    			$value = $color_value;
+    		$result = $this->colorCal($color_value, $e->color_value);//越小颜色越接近
+            \Log::info('color_value: '.$result);
+            if ($key == 0) {
+    		    $value = $result;
+                $result_value = $e->color_value;
+    		    continue;
+            }
+    		if ($result < $value) {
+    			$value = $result;
+                $result_value = $e->color_value;
     		}
-    		if ($value > $color_value) {
-    			$value = $color_value;
-    		}
+            // dd($value);
     	}
     	//获取最小的
-    	$example = $examples->where('value_color', $value);
+    	$example = $examples->where('color_value', $result_value)->first();
+        if (empty($example)) {
+            return $this->failure('未能检测到图片');
+        }
     	//添加检测记录
     	$history = $detection->create([
     		'user_id'=>auth()->id(),
@@ -62,8 +74,8 @@ class DetectionsController extends Controller
 
     public function colorCal($c1, $c2)
     {
-        $c1_arr = explode(',', $c1);
-        $c2_arr = explode(',', $c2);
+        $c1_arr = explode(' ', $c1);
+        $c2_arr = explode(' ', $c2);
         $r1 = $c1_arr[0];
         $r2 = $c2_arr[0];
         $g1 = $c1_arr[1];

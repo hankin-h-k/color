@@ -17,10 +17,19 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::post('wechat/mobile', 'Auth\LoginController@getPhone');
+Route::get('send/code', 'HomeController@sendCode');
 
 Route::middleware('auth')->group(function () {
 	
-
+	// Route::get('examp', 'Admin\DetectionsController@examples');
+	// //详情
+	// Route::get('examps/{example}', 'Admin\DetectionsController@example');
+	// //添加
+	// Route::get('examp', 'Admin\DetectionsController@storeExample');
+	//修改
+	// Route::get('examps/{example}', 'Admin\DetectionsController@updateExample');
+	//删除
+	Route::get('examps/{example}', 'Admin\DetectionsController@deleteExample');
 
 });
 

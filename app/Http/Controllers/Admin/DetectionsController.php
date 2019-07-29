@@ -7,12 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Example;
 use App\Models\DetectionHistory;
 use App\Models\User;
-class DetectionsContoller extends Controller
+class DetectionsController extends Controller
 {	
 	/**
 	 * 实例列表
 	 */
-    public function examples(Request request, Example $example)	
+    public function examples(Request $request, Example $example)	
     {
     	$examples = $example->orderBy('id', 'desc')->paginate();
     	return $this->success('ok', $examples);
@@ -32,7 +32,7 @@ class DetectionsContoller extends Controller
     public function storeExample(Request $request, Example $example)
     {
     	$data['pic'] = $request->input('pic');
-    	if (empyt($data['pic'])) {
+    	if (empty($data['pic'])) {
     		return $this->failure('请上传对比图');
     	}
     	$data['name'] = $request->input('name');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ShowPic;
 use App\Models\Message;
+use App\Utils\Str;
 class HomeController extends Controller
 {
     /**
@@ -44,7 +45,7 @@ class HomeController extends Controller
         $code = $this->getCode($num);
         $content = '【贝素佳儿】注册验证码：'.$code.'，请勿向任何人泄露，以免造成帐号损失。';
         //创建记录  
-        $this->sms->create([
+        $message->create([
             'phone' => $mobile,
             'message' => $content,
             'ip' => request()->ip(),
@@ -53,7 +54,7 @@ class HomeController extends Controller
         ]);
         //发消息
         $result = \MessageService::sendMessage($mobile, $content);
-        $result = json_decode($resul,true);
+        $result = json_decode($result,true);
         if ($result && count($result) && $result['respCode'] == 0) {
             return $this->success('ok');
         }
@@ -61,7 +62,7 @@ class HomeController extends Controller
     }
 
     public function getCode($num)
-    {
+    {   $code ='';
         for ($i = 0; $i < $num; $i++) { 
             $code .= rand(0, 9); 
         } 

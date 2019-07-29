@@ -24,11 +24,11 @@ Route::post('wechat/mobile', 'Auth\LoginController@getPhone');
 Route::post('login', 'Auth\LoginController@login');
 //手机号登录
 Route::post('login/mobile', 'Auth\LoginController@loginMobile');
+
 //获取上传签名
 Route::get('upload/signature', 'Controller@aliyunSignature');
-//发短信消息
+//短信验证码
 Route::post('send/code', 'HomeController@sendCode');
-
 Route::middleware(['auth:api'])->group(function () {
 	//登出
 	Route::post('logout','Auth\LoginController@logout');

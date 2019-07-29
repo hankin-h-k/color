@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class DetectionHistory extends Model
 {
-    //
+    protected $fillable = [];
+    protected $guarded = [];
 
     public function user()
     {

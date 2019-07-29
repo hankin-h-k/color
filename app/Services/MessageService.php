@@ -14,7 +14,7 @@ class MessageService
      * todo:
      * 1. 只有最近, 旧的失效
      */
-    function check($mobile, $code){
+    public function check($mobile, $code){
         if(!$code){
             return '请填写验证码';
         }
@@ -48,7 +48,7 @@ class MessageService
         
     }
 
-    public sendMessage($mobile, $content)
+    public function sendMessage($mobile, $content)
     {
         $url = "http://47.107.123.77:8860/sendSms";//请求URL
         $api_code = "C00003";//对接协议中的API代码

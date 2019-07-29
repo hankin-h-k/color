@@ -41,7 +41,7 @@ Route::middleware('auth:api')->group(function () {
 	//详情
 	Route::get('examples/{example}', 'DetectionsController@example');
 	//添加
-	Route::post('example', 'DetectionsContoller@storeExample');
+	Route::post('example', 'DetectionsController@storeExample');
 	//修改
 	Route::put('examples/{example}', 'DetectionsController@updateExample');
 	//删除
