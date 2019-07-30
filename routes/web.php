@@ -16,8 +16,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::post('wechat/mobile', 'Auth\LoginController@getPhone');
-Route::get('send/code', 'HomeController@sendCode');
+// Route::post('wechat/mobile', 'Auth\LoginController@getPhone');
+// Route::get('send/code', 'HomeController@sendCode');
 
 Route::middleware('auth')->group(function () {
 	
