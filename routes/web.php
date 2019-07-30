@@ -32,6 +32,4 @@ Route::middleware('auth')->group(function () {
 	// Route::get('examps/{example}', 'Admin\DetectionsController@deleteExample');
 
 });
-
-
 Route::get('test', 'Controller@test');
