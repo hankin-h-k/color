@@ -10,8 +10,7 @@ class UsersController extends Controller
 {
     public function users(Request $request, User $user)
     {	
-        $is_completed = $request->input('is_completed');
-    	$users = $user->where('is_completed', $is_completed);
+    	$users = $user->orderBy('id', 'desc');
         $keyword = $request->input('keyword');
         if ($keyword) {
             $keyword = trim($keyword);
@@ -20,7 +19,7 @@ class UsersController extends Controller
                 ->orWhere('name', 'like', '%'.$keyword.'%');
             });
         }
-        $users = $users->orderBy('id', 'desc')->paginate();
+        $users = $users->paginate();
     	return $this->success('ok', $users);
     }
 
@@ -29,42 +28,42 @@ class UsersController extends Controller
     	return $this->success('ok', $user);
     }
 
-    public function userApplycations(Request $request, User $user, ApplicationForm $form)
-    {
-    	$forms = $user->forms()->with('job')->paginate();
-    	return $this->success('ok', $forms);
-    }
+    // public function userApplycations(Request $request, User $user, ApplicationForm $form)
+    // {
+    // 	$forms = $user->forms()->with('job')->paginate();
+    // 	return $this->success('ok', $forms);
+    // }
 
-    public function informUser(Request $request, User $user)
-    {
-        $form_id_obj = $user->getValidFormId();
-        if (empty($form_id_obj)) {
-            return $this->failure('用户没有通知标签');
-        }
-    	$param = [];
-    	\WechatService::informUser($param);
-    	return $this->success('ok');
-    }
+    // public function informUser(Request $request, User $user)
+    // {
+    //     $form_id_obj = $user->getValidFormId();
+    //     if (empty($form_id_obj)) {
+    //         return $this->failure('用户没有通知标签');
+    //     }
+    // 	$param = [];
+    // 	\WechatService::informUser($param);
+    // 	return $this->success('ok');
+    // }
 
-    /**
-     * 屏蔽用户
-     * @param  Request $request [description]
-     * @param  User    $user    [description]
-     * @return [type]           [description]
-     */
-    public function shieldUser(Request $request, User $user)
-    {
-        $user->is_shielded = $user->is_shielded?0:1;
-        $user->save();
-        return $this->success('ok', $user);
-    }   
+    // /**
+    //  * 屏蔽用户
+    //  * @param  Request $request [description]
+    //  * @param  User    $user    [description]
+    //  * @return [type]           [description]
+    //  */
+    // public function shieldUser(Request $request, User $user)
+    // {
+    //     $user->is_shielded = $user->is_shielded?0:1;
+    //     $user->save();
+    //     return $this->success('ok', $user);
+    // }   
 
-    /**
-     * 管理员用户
-     * @param  Request $request [description]
-     * @param  User    $user    [description]
-     * @return [type]           [description]
-     */
+    // /**
+    //  * 管理员用户
+    //  * @param  Request $request [description]
+    //  * @param  User    $user    [description]
+    //  * @return [type]           [description]
+    //  */
     public function adminUsers(Request $request, User $user)
     {
         $users = $user->where('is_admin', 1);

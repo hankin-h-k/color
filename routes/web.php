@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
 	//修改
 	// Route::get('examps/{example}', 'Admin\DetectionsController@updateExample');
 	//删除
-	Route::get('examps/{example}', 'Admin\DetectionsController@deleteExample');
+	// Route::get('examps/{example}', 'Admin\DetectionsController@deleteExample');
 
 });
 

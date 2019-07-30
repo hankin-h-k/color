@@ -14,8 +14,9 @@
         "laravel/framework": "5.8.*",
         "laravel/passport": "^7.3",
         "laravel/tinker": "^1.0",
-        "predis/predis": "^1.1",
-        "overtrue/laravel-wechat": "~5.0"
+        "obs/esdk-obs-php": "^3.1",
+        "overtrue/laravel-wechat": "~5.0",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

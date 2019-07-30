@@ -2,8 +2,9 @@
 
 use OSS\OssClient;
 use Illuminate\Support\Facades\Storage;
-
-
+use Obs\ObsClient;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 class UploadService
 {
 
@@ -131,5 +132,75 @@ class UploadService
         if (Storage::disk($disk)->put($fileName, file_get_contents($tmpFile)) ){
             return Storage::url($fileName);
         }
+    }
+
+    public function huaWeiUploadFile($file)
+    {
+        //目录
+        $object = date('Y').date('m')."/".date('d')."/".$file['name'];
+        $file_url = 'https://'.config('alioss.picture_domain').'/'.$object;
+        // 创建ObsClient实例
+        $obsClient = new ObsClient([
+            'key' => 'TFPUSZ3JKMPQOBWQM55W',
+            'secret' => 'SBTSXXLdGwzQBgDUCrCVw1CFTc1NUPaYG53leUkN',
+            'endpoint' => 'obs.cn-north-4.myhuaweicloud.com'
+        ]);
+
+        $resp = $obsClient -> putObject([
+            'Bucket' => 'obs-e125',
+            'Key' => $object,
+            'SourceFile' => $$file['tmp_name'],
+        ]);
+        return resp;
+    }
+
+    public function huaWeiSignature($request)
+    {
+        $id= 'TFPUSZ3JKMPQOBWQM55W';
+        $key= 'SBTSXXLdGwzQBgDUCrCVw1CFTc1NUPaYG53leUkN';
+        $host = 'https://obs-e125.obs.cn-north-4.myhuaweicloud.com';
+        $now = time();
+        $expire = 60*30; //设置该policy超时时间是60s. 即这个policy过了这个有效时间，将不能访问
+        $end = $now + $expire;
+        $expiration = $this->gmt_iso8601($end);
+
+        $dir = date('Y').date('m')."/".date('d')."/";
+
+        //最大文件大小.用户可以自己设置
+        $condition = array(0=>'content-length-range', 1=>0, 2=>1048576000);
+        $conditions[] = $condition;
+
+        //表示用户上传的数据,必须是以$dir开始, 不然上传会失败,这一步不是必须项,只是为了安全起见,防止用户通过policy上传到别人的目录
+        $start = array(0=>'starts-with', 1=>'$key', 2=>$dir);
+        $conditions[] = $start;
+
+
+        //这里默认设置是２０２０年.注意了,可以根据自己的逻辑,设定expire 时间.达到让前端定时到后面取signature的逻辑
+        $arr = array('expiration'=>$expiration,'conditions'=>$conditions);
+
+        $policy = json_encode($arr);
+        $base64_policy = base64_encode($policy);
+        $string_to_sign = $base64_policy;
+        $signature = base64_encode(hash_hmac('sha1', $string_to_sign, $key, true));
+        $callback_url = $request->root().'/api/upload';
+        $callback_param = array('callbackUrl'=>$callback_url, 
+            'callbackBody'=>'filename=${object}&size=${size}&mimeType=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}',
+            'callbackBodyType'=>"application/x-www-form-urlencoded"); 
+        $callback_string = json_encode($callback_param);
+        $base64_callback_body = base64_encode($callback_string);
+
+
+        $response = array();
+        $response['accessid'] = $id;
+        $response['host'] = $host;
+        $response['policy'] = $base64_policy;
+        $response['signature'] = $signature;
+        $response['expire'] = $end;
+        //这个参数是设置用户上传指定的前缀
+        $response['dir'] = $dir;
+        $response['picture_domain'] = config('alioss.picture_domain');
+        //$response['callback'] = $base64_callback_body;
+
+        return $response;
     }
 }

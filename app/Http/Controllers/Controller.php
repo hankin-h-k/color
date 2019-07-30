@@ -50,13 +50,13 @@ class Controller extends BaseController
 	public function upload(Request $request)
 	{
 		$file = $_FILES['fileData'];
-        $result = \UploadService::uploadFile($file);
+        $result = \UploadService::huaWeiUploadFile($file);
         return $this->success('ok', $result);
 	}
 
 	public function aliyunSignature(Request $request)
 	{
-		$response = \UploadService::aliyunSignature($request);
+		$response = \UploadService::huaWeiSignature($request);
 		return $this->success('ok', $response);
 	}
 

@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 
-
+Route::post('login', 'Auth\LoginController@login');
 
 Route::middleware('auth:api')->group(function () {
 	/**
@@ -13,13 +13,13 @@ Route::middleware('auth:api')->group(function () {
 	//用户详情
 	Route::get('users/{user}', 'UsersController@user');
 	//通知用户
-	Route::post('inform/user/{user}', 'UsersController@informUser');
-	//屏蔽用户
-	Route::put('shield/users/{user}', 'UsersController@shieldUser');
-	//用户报名列表
-	Route::get('users/{user}/applycations', 'UsersController@userApplycations');
-	//新增用户
-	Route::get('new/user/num', 'UsersController@newUserNum');
+	// Route::post('inform/user/{user}', 'UsersController@informUser');
+	// //屏蔽用户
+	// Route::put('shield/users/{user}', 'UsersController@shieldUser');
+	// //用户报名列表
+	// Route::get('users/{user}/applycations', 'UsersController@userApplycations');
+	// //新增用户
+	// Route::get('new/user/num', 'UsersController@newUserNum');
 
 	/**
 	 * 管理员
@@ -37,14 +37,14 @@ Route::middleware('auth:api')->group(function () {
 	 * 实例
 	 */
 	//列表
-	Route::get('examples', 'DetectionsController@examples');
+	Route::get('exmps', 'DetectionsController@examples');
 	//详情
-	Route::get('examples/{example}', 'DetectionsController@example');
+	Route::get('exmps/{example}', 'DetectionsController@example');
 	//添加
-	Route::post('example', 'DetectionsController@storeExample');
+	Route::post('exmp', 'DetectionsController@storeExample');
 	//修改
-	Route::put('examples/{example}', 'DetectionsController@updateExample');
+	Route::put('exmps/{example}', 'DetectionsController@updateExample');
 	//删除
-	Route::delete('examples/{example}', 'DetectionsController@deleteExample');
+	Route::delete('exmps/{example}', 'DetectionsController@deleteExample');
 
 });
