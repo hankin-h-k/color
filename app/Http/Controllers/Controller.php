@@ -56,7 +56,8 @@ class Controller extends BaseController
 
 	public function aliyunSignature(Request $request)
 	{
-		$response = \UploadService::huaWeiSignature($request);
+        $response = \UploadService::aliyunSignature($request);
+		// $response = \UploadService::huaWeiSignature($request);
 		return $this->success('ok', $response);
 	}
 

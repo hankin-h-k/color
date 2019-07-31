@@ -16,7 +16,7 @@ class CreateShowPics extends Migration
         Schema::create('show_pics', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('pic')->nullable()->comment('图片');
-            $table->string('paht')->nullable()->comment('链接');
+            $table->string('path')->nullable()->comment('链接');
             $table->string('type')->nullable()->comment('类型');
             $table->timestamps();
         });

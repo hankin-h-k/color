@@ -74,8 +74,8 @@ class DetectionsController extends Controller
 
     public function colorCal($c1, $c2)
     {
-        $c1_arr = explode(' ', $c1);
-        $c2_arr = explode(' ', $c2);
+        $c1_arr = explode(',', $c1);
+        $c2_arr = explode(',', $c2);
         $r1 = $c1_arr[0];
         $r2 = $c2_arr[0];
         $g1 = $c1_arr[1];

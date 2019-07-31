@@ -12,6 +12,8 @@ Route::middleware('auth:api')->group(function () {
 	Route::get('users', 'UsersController@users');
 	//用户详情
 	Route::get('users/{user}', 'UsersController@user');
+	//用户测试列表
+	Route::get('users/{user}/detections', 'UsersController@userDetctions');
 	//通知用户
 	// Route::post('inform/user/{user}', 'UsersController@informUser');
 	// //屏蔽用户
@@ -47,4 +49,13 @@ Route::middleware('auth:api')->group(function () {
 	//删除
 	Route::delete('exmps/{example}', 'DetectionsController@deleteExample');
 
+	/**
+	 * 图片
+	 */
+	//图片列表
+	Route::get('show/pics', 'PicsController@showPics');
+	//图片修改
+	Route::post('show/pics', 'PicsController@updateShowPic');
+	//图片删除
+	Route::delete('show/pics/{pic}', 'PicsController@deleteShowPic');
 });
