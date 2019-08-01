@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\DetectionHistory;
 use App\Models\Example;
 use App\Models\ShowPic;
+use App\Models\ExampleColor;
 class DetectionsController extends Controller
 {
 	/**
@@ -28,7 +29,7 @@ class DetectionsController extends Controller
      * @param  DelectionHistory $detection [description]
      * @return [type]                      [description]
      */
-    public function detect(Request $request, Example $example, DetectionHistory $detection)
+    public function detect(Request $request, Example $example, DetectionHistory $detection, ExampleColor $exampleColor)
     {
     	$color_value = $request->input('color_value');
         if (empty($color_value)) {
@@ -39,11 +40,15 @@ class DetectionsController extends Controller
     	if (empty($pic)) {
     		return $this->failure('请上传需要检测的图片');
     	}
-    	$examples = $example->all();
+        // $example_id = $exampleColor->where('color_value', $color_value)->value('example_id');
+        // if (empty($example_id)) {
+        //     return $this->failure('没有该颜色对应的症状，请联系客服.');
+        // }
+    	$example_colors = $exampleColor->all();
     	// $data = [];
     	$value = 1;
         $result_value = 1;
-    	foreach ($examples as $key => $e) {
+    	foreach ($example_colors as $key => $e) {
     		$result = $this->colorCal($color_value, $e->color_value);//越小颜色越接近
             \Log::info('color_value: '.$result);
             if ($key == 0) {
@@ -60,19 +65,20 @@ class DetectionsController extends Controller
             return $this->failure('没有该颜色对应的症状，请联系客服.');
         }
     	//获取最小的
-    	$example = $examples->where('color_value', $result_value)->first();
+    	$example_color = $exampleColor->where('color_value', $result_value)->first();
         // dd($value);
-        if (empty($example)) {
+        if (empty($example_color)) {
             return $this->failure('未能检测到图片');
         }
+        $example = $example->find($example_color->example_id);
     	//添加检测记录
     	$history = $detection->create([
     		'user_id'=>auth()->id(),
     		'pic' => $pic,
-    		'example_id'=>$example->id,
+    		'example_id'=>$example_color->example_id,
     		'type'=>$type,
     	]);
-    	return $this->success('ok', compact('example', 'history'));
+    	return $this->success('ok', compact('example', 'history', 'example_color'));
     }
 
     public function colorCal($c1, $c2)
