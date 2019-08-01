@@ -29,4 +29,16 @@ class UsersController extends Controller
         return $this->success('ok', $detections);
     }
 
+    public function upadteAvatar(Request $request)
+    {   
+        $avatar = $request->input('avatar');
+        if (empty($avatar)) {
+            return $this->failure('请上传头像');
+        }
+        $user = auth()->user();
+        $user->avatar = $avatar;
+        $user->save();
+        return $this->success('ok', $user);
+    }
+
 }

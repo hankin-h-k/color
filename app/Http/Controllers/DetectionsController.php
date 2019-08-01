@@ -55,10 +55,13 @@ class DetectionsController extends Controller
     			$value = $result;
                 $result_value = $e->color_value;
     		}
-            // dd($value);
     	}
+        if ($value > 76) {
+            return $this->failure('没有该颜色对应的症状，请联系客服.');
+        }
     	//获取最小的
     	$example = $examples->where('color_value', $result_value)->first();
+        // dd($value);
         if (empty($example)) {
             return $this->failure('未能检测到图片');
         }
@@ -82,10 +85,15 @@ class DetectionsController extends Controller
         $g2 = $c2_arr[1];
         $b1 = $c1_arr[2];
         $b2 = $c2_arr[2];
-        $r3 = ($r1 - $r2) /256;
-        $g3 = ($g1 - $g2)/256;
-        $b3 = ($b1 - $b2)/256;
-        $result  = sqrt($r3 * $r3 + $g3 * $g3 + $b3 * $b3);
+        // $r3 = $r1 - $r2;
+        // $g3 = $g1 - $g2;
+        // $b3 = $b1 - $b2;
+        // $result = sqrt($r3 * $r3 + $g3 * $g3 + $b3 * $b3)/sqrt(255*255+255*255+255*255);
+        $rmean = ($r1 + $r2) /2;
+        $r3 = $r1 - $r2;
+        $g3 = $g1 - $g2;
+        $b3 = $b1 - $b2;
+        $result = sqrt((2+$rmean/256)*($r3 * $r3)+4*($g3 * $g3)+(2+(255-$rmean)/256)*($b3 * $b3));
         return $result;
     }
 
@@ -98,5 +106,11 @@ class DetectionsController extends Controller
     public function detection(Request $request, DetectionHistory $detection)
     {
     	return $this->success('ok', $detection);
+    }
+
+    public function exaps(Request $request, Example $exap)
+    {
+        $exaps = $exap->orderBy('id', 'desc')->paginate();
+        return $this->success('ok', $exaps); 
     }
 }

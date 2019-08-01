@@ -23,3 +23,4 @@ Route::middleware('auth')->group(function () {
 	
 });
 Route::get('test', 'Controller@test');
+Route::get('detect', 'DetectionsController@detect');

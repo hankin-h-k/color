@@ -49,6 +49,9 @@ Route::middleware(['auth:api'])->group(function () {
 	Route::get('user', 'UsersController@user');
 	//我的检测列表
 	Route::get('user/detections', 'UsersController@userDelectionHistories');
-
+	//实例列表
+	Route::get('exmps', 'DetectionsController@examples');
+	//修改头像
+	Route::put('user/avatar', 'UsersController@upadteAvatar');
 });
 
