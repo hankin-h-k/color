@@ -56,7 +56,7 @@ class DetectionsController extends Controller
                 $result_value = $e->color_value;
     		}
     	}
-        if ($value > 76) {
+        if ($value > 50) {
             return $this->failure('没有该颜色对应的症状，请联系客服.');
         }
     	//获取最小的

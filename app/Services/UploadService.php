@@ -159,6 +159,7 @@ class UploadService
         $id= 'TFPUSZ3JKMPQOBWQM55W';
         $key= 'SBTSXXLdGwzQBgDUCrCVw1CFTc1NUPaYG53leUkN';
         $host = 'https://obs-e125.obs.cn-north-4.myhuaweicloud.com';
+        $file_name = md5(time()) .mt_rand(0,99).'test.jpg';
         $now = time();
         $expire = 60*30; //设置该policy超时时间是60s. 即这个policy过了这个有效时间，将不能访问
         $end = $now + $expire;
@@ -198,9 +199,15 @@ class UploadService
         $response['expire'] = $end;
         //这个参数是设置用户上传指定的前缀
         $response['dir'] = $dir;
-        $response['picture_domain'] = config('alioss.picture_domain');
+        $response['file_name'] = $file_name;
+        // $response['picture_domain'] = config('alioss.picture_domain');
         //$response['callback'] = $base64_callback_body;
 
         return $response;
+    }
+
+    public function signature()
+    {
+        $stringToSign = 'POST'.'\n';
     }
 }
