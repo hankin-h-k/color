@@ -7,6 +7,7 @@ use App\Models\DetectionHistory;
 use App\Models\Example;
 use App\Models\ShowPic;
 use App\Models\ExampleColor;
+use App\Models\DetectionColor;
 class DetectionsController extends Controller
 {
 	/**
@@ -61,7 +62,9 @@ class DetectionsController extends Controller
                 $result_value = $e->color_value;
     		}
     	}
-        if ($value > 50) {
+        if ($value > 30) {
+            //添加未识别记录
+            $detection_color = DetectionColor::firstOrCreate(['color_value'=>$result_value]);
             return $this->failure('没有该颜色对应的症状，请联系客服.');
         }
     	//获取最小的
