@@ -128,4 +128,23 @@ class DetectionsController extends Controller
         }
         return $this->success('ok', $exaps); 
     }
+
+    public function userDetect(Request $request, DetectionHistory $detection)
+    {
+        $pic = $request->input('pic');
+        $type = $request->input('type');
+        // $color_value = $request->input('color_value');
+        $example_id = $request->input('example_id');
+        if (empty($example_id)) {
+            return $this->failure('请选择实例!');
+        }
+        $history = $detection->create([
+            'user_id'=>auth()->id(),
+            'pic' => $pic,
+            'example_id'=>$example_id,
+            'type'=>$type,
+        ]);
+        $example = Example::find($example_id);
+        return $this->success('ok', compact('example', 'history'));
+    }
 }

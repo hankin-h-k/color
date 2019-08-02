@@ -43,6 +43,8 @@ Route::middleware(['auth:api'])->group(function () {
 	Route::get('detection/carousels', 'DetectionsController@carousels');
 	//检测
 	Route::post('detect', 'DetectionsController@detect');
+	//用户选择实例
+	Route::post('user/detect', 'DetectionsController@userDetect');
 	//检测详情
 	Route::get('detection/histories/{history}', 'DetectionsController@detection');
 	//我的
