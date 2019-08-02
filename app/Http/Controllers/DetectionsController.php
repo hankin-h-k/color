@@ -117,9 +117,15 @@ class DetectionsController extends Controller
     	return $this->success('ok', $detection);
     }
 
-    public function exaps(Request $request, Example $exap)
+    public function examples(Request $request, Example $exap)
     {
-        $exaps = $exap->orderBy('id', 'desc')->paginate();
+        $exaps = $exap->orderBy('id', 'desc');
+        $nopage = $request->input('nopage');
+        if ($nopage) {
+            $exaps = $exaps->get();
+        }else{
+            $exaps = $exaps->paginate();
+        }
         return $this->success('ok', $exaps); 
     }
 }
